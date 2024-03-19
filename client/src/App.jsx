@@ -3,9 +3,12 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Home from "./routs/Home";
 import {RestaurantdetailsPage} from "./routs/RestaurantdetailsPage";
 import {UpdatePage} from "./routs/UpdatePage";
+import { RestaurantProvider } from "./context/RestaurantContext";
 
 const App=()=> {
-  return <div>
+  return( 
+  <RestaurantProvider>
+  <div className='container'>
     <Router>
       {/* <Routes/> */}
       <Routes>
@@ -14,6 +17,7 @@ const App=()=> {
         <Route exact path="/restaurants/:id" element={<RestaurantdetailsPage/>}/>
       </Routes>
     </Router>
-  </div>;
-}
+  </div>
+  </RestaurantProvider>
+  )}
 export default App;

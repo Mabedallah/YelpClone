@@ -2,12 +2,14 @@ import 'dotenv/config'
 import express from 'express';
 import morgan from 'morgan';
 import {query} from './db/index.mjs';
+import cors from 'cors';
 
 
 
 // Create an Express app
 const app = express();
 app.use(morgan('dev'));
+app.use(cors())
 app.use(express.json());
 
 
