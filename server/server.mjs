@@ -77,15 +77,13 @@ try {
 
 
 // Define a route for Adding restaurant "/api/v1/restaurant" URL
-app.post('/api/v1/restaurant', async(req, res) => {
+app.post('/api/v1/restaurants', async(req, res) => {
   try {
     const results = await query('INSERT INTO restaurants (name, location, price_range) VALUES ($1, $2, $3) RETURNING *',
      [req.body.name, req.body.location, req.body.price_range]);
   res.status(201).json({
     status:"added sucessfully",
-    data:{
-      restaurant:results.rows,
-    }
+    data:results.rows,
   });
   } catch (error) {
     console.log(error.message);
@@ -97,7 +95,7 @@ app.post('/api/v1/restaurant', async(req, res) => {
 });
 
 // Define a route for update restaurant "/api/v1/restaurant/:restaurantid" URL
-app.put('/api/v1/restaurant/:restaurantid', async(req, res) => {
+app.put('/api/v1/restaurants/:restaurantid', async(req, res) => {
   try {
     const results = await query("UPDATE restaurants SET name = $1, location = $2, price_range = $3 WHERE id = $4 returning *",
      [req.body.name, req.body.location, req.body.price_range, req.params.restaurantid]); // execute a query
@@ -117,7 +115,7 @@ app.put('/api/v1/restaurant/:restaurantid', async(req, res) => {
 });
 
 // Delete restaurant "/api/v1/restaurant/:restaurantid" URL
-app.delete("/api/v1/restaurant/:restaurantid", async(req, res) => {
+app.delete("/api/v1/restaurants/:restaurantid", async(req, res) => {
   try {
     const results = await query("DELETE FROM restaurants WHERE id = $1", [req.params.restaurantid]); //
     console.log(req.params.restaurantid);

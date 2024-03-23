@@ -4,12 +4,13 @@ import {RestaurantContext} from '../context/RestaurantContext';
 
 const RestaurantsList=(props)=> {
     const {restaurants,setRestaurants} = useContext(RestaurantContext);
+    
     useEffect(()=>{
         const fetchData=async()=>{
             try {
             const response = await RestauranFinder.get("/");
             setRestaurants(response.data.data);
-            console.log(response.data.data);
+            //console.log(response.data.data);
         } catch (error) {
             
         }
@@ -17,11 +18,20 @@ const RestaurantsList=(props)=> {
         fetchData();
         
     },[]);
+
+    const handleDelete=async(id)=>{
+        try {
+            const response = await RestauranFinder.delete(`/${id}`);
+            setRestaurants(restaurants.filter((restaurant)=>restaurant.id!==id));
+        } catch (error) {
+            
+        }
+    };
   return (
     <div className='list-group'>
         <table className="table table-hover table-dark">
             <thead>
-                <tr className='bg-primary' key={0}>
+                <tr className='bg-primary' key={Math.random()}>
                 <th scope='col'>Restaurant</th>
                 <th scope='col'>Location</th>
                 <th scope='col'>Price Range</th>
@@ -39,27 +49,10 @@ const RestaurantsList=(props)=> {
                             <td>{"$".repeat(restaurant.price_range)}</td>
                             <td>reviews</td>
                             <td><button className="btn btn-warning">Update</button></td>
-                            <td><button className="btn btn-danger">Delete</button></td>
+                            <td><button className="btn btn-danger" onClick={()=>{handleDelete(restaurant.id)}}>Delete</button></td>
                         </tr>
                     );
-                        
                 })}
-                {/* <tr>
-                    <td>The Grill House</td>
-                    <td>123 Main Street</td>
-                    <td>$$$$$</td>
-                    <td>4 out of 5</td>
-                    <td><button className="btn btn-warning">Update</button></td>
-                    <td><button className="btn btn-danger">Delete</button></td>
-                </tr>
-                <tr>
-                    <td>The Grill House</td>
-                    <td>123 Main Street</td>
-                    <td>$$$$$</td>
-                    <td>4 out of 5</td>
-                    <td><button className="btn btn-warning">Update</button></td>
-                    <td><button className="btn btn-danger">Delete</button></td>
-                </tr> */}
             </tbody>
         </table>
     </div>
